@@ -99,6 +99,30 @@ export const loginAction = async (
   return result;
 };
 
+async function uploadImgbb(file: File): Promise<string | null> {
+  if (!file || file.size === 0) return null;
+
+  const imgbbFormData = new FormData();
+  imgbbFormData.append("image", file);
+
+  const res = await fetch(
+    `https://api.imgbb.com/1/upload?key=${process.env.IMAGE_HOST_KEY}`,
+    {
+      method: "POST",
+      body: imgbbFormData,
+    },
+  );
+
+  const result = await res.json();
+
+  if (!result.success) {
+    console.error("imgbb upload failed", result);
+    return null;
+  }
+
+  return result.data.url as string;
+}
+
 export const registerAction = async (
   prevState: RegisterState,
   formdata: FormData,
@@ -107,7 +131,7 @@ export const registerAction = async (
   const email = formdata.get("email") as string;
   const password = formdata.get("password") as string;
   const confirmPassword = formdata.get("confirmPassword") as string;
-  const payload = { name, email, password };
+  const avatar = formdata.get("avatar") as File | null;
 
   const errors: Record<string, string> = {};
 
@@ -137,6 +161,10 @@ export const registerAction = async (
       errors,
     };
   }
+
+  const photoURL = await uploadImgbb(avatar as File);
+
+  const payload = { name, email, password, profilePhoto: photoURL };
 
   const res = await fetch(`${process.env.BACKEND_API_URL}/api/users/register`, {
     method: "POST",

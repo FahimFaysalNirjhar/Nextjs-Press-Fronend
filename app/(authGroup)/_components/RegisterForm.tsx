@@ -16,6 +16,8 @@ import { registerAction } from "../_action/authActions";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Camera, Plus, UserRound } from "lucide-react";
 
 const RegisterForm = () => {
   const [state, action, pending] = useActionState(registerAction, null);
@@ -48,6 +50,35 @@ const RegisterForm = () => {
         </CardHeader>
 
         <CardContent className="space-y-4">
+          <div className="flex flex-col  gap-1">
+            <label
+              htmlFor="avatar"
+              className="relative h-14 w-14 cursor-pointer"
+            >
+              <Avatar className="h-14 w-14 border">
+                <AvatarFallback className="bg-muted">
+                  <UserRound className="h-6 w-6 text-muted-foreground" />
+                </AvatarFallback>
+              </Avatar>
+
+              <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-background bg-primary text-primary-foreground">
+                <Plus className="h-3 w-3" />
+              </span>
+
+              <input
+                id="avatar"
+                name="avatar"
+                type="file"
+                accept="image/*"
+                required
+                className="absolute h-px w-px overflow-hidden opacity-0"
+              />
+            </label>
+
+            {state && "errors" in state && state.errors?.avatar && (
+              <p className="text-sm text-red-500">{state.errors.avatar}</p>
+            )}
+          </div>
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
             <Input
