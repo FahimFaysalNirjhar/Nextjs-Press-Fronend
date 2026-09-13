@@ -8,6 +8,7 @@ import {
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
+import { Navbar } from "@/components/shared/navbar";
 
 const merriweatherHeading = Merriweather({
   subsets: ["latin"],
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       )}
     >
       <body className="min-h-full flex flex-col">
+        <Navbar />
         {children}
         <Toaster position="top-right" richColors />
       </body>
