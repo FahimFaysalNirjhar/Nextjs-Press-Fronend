@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useActionState, useEffect } from "react";
 import { registerAction } from "../_action/authActions";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const RegisterForm = () => {
   const [state, action, pending] = useActionState(registerAction, null);
@@ -38,7 +39,7 @@ const RegisterForm = () => {
           </CardDescription>
           <CardAction>
             <Button variant="link" type="button">
-              Login
+              <Link href="Login">Login</Link>
             </Button>
           </CardAction>
         </CardHeader>

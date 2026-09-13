@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import React, { useActionState, useEffect } from "react";
 import { loginAction } from "../_action/authActions";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const LoginForm = () => {
   const [state, action, pending] = useActionState(loginAction, false);
@@ -39,8 +40,8 @@ const LoginForm = () => {
             Enter your email below to login to your account
           </CardDescription>
           <CardAction>
-            <Button variant="link" type="button">
-              Sign Up
+            <Button variant="link" asChild>
+              <Link href="Register">Sign Up</Link>
             </Button>
           </CardAction>
         </CardHeader>
