@@ -152,6 +152,10 @@ export const registerAction = async (
     errors.confirmPassword = "Passwords do not match";
   }
 
+  if (!avatar || avatar.size === 0) {
+    errors.avatar = "Please select a profile picture";
+  }
+
   // 🔴 THIS WAS MISSING — stop here if validation failed
   if (Object.keys(errors).length > 0) {
     return {
