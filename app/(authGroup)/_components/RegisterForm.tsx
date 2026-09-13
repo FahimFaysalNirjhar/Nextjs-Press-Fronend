@@ -15,14 +15,17 @@ import { useActionState, useEffect } from "react";
 import { registerAction } from "../_action/authActions";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
   const [state, action, pending] = useActionState(registerAction, null);
+  const router = useRouter();
 
   useEffect(() => {
     if (!state) return;
     if (state.success) {
       toast.success(state.message || "Account created successfully");
+      router.push("Login");
     }
     if (!state.success) {
       toast.error(state.message || "Registration failed. Please try again.");
