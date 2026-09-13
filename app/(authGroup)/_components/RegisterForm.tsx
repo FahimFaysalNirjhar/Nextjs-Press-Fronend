@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,11 +11,25 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React from "react";
+import { useActionState, useEffect } from "react";
+import { registerAction } from "../_action/authActions";
+import { toast } from "sonner";
 
 const RegisterForm = () => {
+  const [state, action, pending] = useActionState(registerAction, null);
+
+  useEffect(() => {
+    if (!state) return;
+    if (state.success) {
+      toast.success(state.message || "Account created successfully");
+    }
+    if (!state.success) {
+      toast.error(state.message || "Registration failed. Please try again.");
+    }
+  }, [state]);
+
   return (
-    <form className="space-y-4">
+    <form action={action} className="space-y-4">
       <Card className="p-5 space-y-4">
         <CardHeader>
           <CardTitle>Create an account</CardTitle>
@@ -59,6 +75,9 @@ const RegisterForm = () => {
               placeholder="Enter password"
               required
             />
+            {state && state.errors?.password && (
+              <p className="text-sm text-red-500">{state.errors.password}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -70,11 +89,15 @@ const RegisterForm = () => {
               placeholder="Re-enter password"
               required
             />
+            {state && state.errors?.confirmPassword && (
+              <p className="text-sm text-red-500">
+                {state.errors.confirmPassword}
+              </p>
+            )}
           </div>
 
           <Button type="submit" className="w-full">
-            {/* {pending ? "Creating account..." : "Register"} */}
-            Register
+            {pending ? "Creating account..." : "Register"}
           </Button>
         </CardContent>
       </Card>
