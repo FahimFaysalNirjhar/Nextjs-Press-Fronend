@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +14,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { LogOut, Settings, User, UserRound } from "lucide-react";
+import { LogOut, Settings, UserRound } from "lucide-react";
+import { logOut } from "@/service/logout";
+import { toast } from "sonner";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard" },
@@ -28,9 +30,6 @@ type ActiveStatus = "ACTIVE" | "BLOCKED";
 type UserRole = "USER" | "ADMIN" | "AUTHOR";
 
 type IUser = {
-  success: true;
-  statusCode: number;
-  message: string;
   id: string;
   name: string;
   email: string;
@@ -52,11 +51,19 @@ type NavbarProps = {
 
 export function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
+  const router = useRouter();
 
-  console.log(user?.success);
   console.log(user?.profile?.profilePhoto, "propic");
   console.log(user?.name);
   console.log(user);
+
+  const handleUserMenuAction = async (action: string) => {
+    if (action === "logout") {
+      await logOut();
+      toast.success("User Logged out successfully");
+      router.push("/Login");
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -124,7 +131,12 @@ export function Navbar({ user }: NavbarProps) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-red-600 focus:text-red-600">
+              <DropdownMenuItem
+                onClick={async () => {
+                  await handleUserMenuAction("logout");
+                }}
+                className="text-red-600 focus:text-red-600"
+              >
                 <LogOut className="mr-2 h-4 w-4" />
                 Log out
               </DropdownMenuItem>
@@ -133,10 +145,10 @@ export function Navbar({ user }: NavbarProps) {
         ) : (
           <div className="flex items-center gap-2">
             <Button variant="ghost" asChild>
-              <Link href="/login">Login</Link>
+              <Link href="/Login">Login</Link>
             </Button>
             <Button asChild>
-              <Link href="/register">Register</Link>
+              <Link href="/Register">Register</Link>
             </Button>
           </div>
         )}
