@@ -132,6 +132,7 @@ export const registerAction = async (
   const password = formdata.get("password") as string;
   const confirmPassword = formdata.get("confirmPassword") as string;
   const avatar = formdata.get("avatar") as File | null;
+  const role = formdata.get("role") as string;
 
   const errors: Record<string, string> = {};
 
@@ -156,6 +157,10 @@ export const registerAction = async (
     errors.avatar = "Please select a profile picture";
   }
 
+  if (!role || !["USER", "AUTHOR"].includes(role)) {
+    errors.role = "Please select a valid role";
+  }
+
   // 🔴 THIS WAS MISSING — stop here if validation failed
   if (Object.keys(errors).length > 0) {
     return {
@@ -168,7 +173,7 @@ export const registerAction = async (
 
   const photoURL = await uploadImgbb(avatar as File);
 
-  const payload = { name, email, password, profilePhoto: photoURL };
+  const payload = { name, email, password, role, profilePhoto: photoURL };
 
   const res = await fetch(`${process.env.BACKEND_API_URL}/api/users/register`, {
     method: "POST",

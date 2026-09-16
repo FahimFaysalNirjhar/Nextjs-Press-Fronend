@@ -16,8 +16,9 @@ import { registerAction } from "../_action/authActions";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Camera, Plus, UserRound } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Plus, UserRound } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const RegisterForm = () => {
   const [state, action, pending] = useActionState(registerAction, null);
@@ -32,7 +33,7 @@ const RegisterForm = () => {
     if (!state.success) {
       toast.error(state.message || "Registration failed. Please try again.");
     }
-  }, [state]);
+  }, [state, router]);
 
   return (
     <form action={action} className="space-y-4">
@@ -50,6 +51,33 @@ const RegisterForm = () => {
         </CardHeader>
 
         <CardContent className="space-y-4">
+          {/* Role selection */}
+          <div className="space-y-2">
+            <Label>I am registering as</Label>
+            <RadioGroup
+              name="role"
+              defaultValue="USER"
+              className="grid grid-cols-2 gap-3"
+            >
+              <Label
+                htmlFor="role-user"
+                className="flex items-center gap-2 rounded-md border p-3 cursor-pointer has-data-[state=checked]:border-primary has-data-[state=checked]:bg-primary/5"
+              >
+                <RadioGroupItem value="USER" id="role-user" />
+                <span className="text-sm font-normal">User</span>
+              </Label>
+              <Label
+                htmlFor="role-author"
+                className="flex items-center gap-2 rounded-md border p-3 cursor-pointer has-data-[state=checked]:border-primary has-data-[state=checked]:bg-primary/5"
+              >
+                <RadioGroupItem value="AUTHOR" id="role-author" />
+                <span className="text-sm font-normal">Author</span>
+              </Label>
+            </RadioGroup>
+            {state && "errors" in state && state.errors?.role && (
+              <p className="text-sm text-red-500">{state.errors.role}</p>
+            )}
+          </div>
           <div className="flex flex-col  gap-1">
             <label
               htmlFor="avatar"
