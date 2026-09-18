@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "5mb", // matches the 5MB limit you validated client-side earlier
     },
   },
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "picsum.photos" }],
+  },
 };
 
 export default nextConfig;
