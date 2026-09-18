@@ -8,7 +8,6 @@ import {
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
-import { Navbar } from "@/components/shared/navbar";
 
 const merriweatherHeading = Merriweather({
   subsets: ["latin"],
