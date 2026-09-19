@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useActionState, useEffect } from "react";
-import { registerAction } from "../_action/authActions";
+import { registerAction } from "../_actions/authActions";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

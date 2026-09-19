@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { NewsSkeleton } from "../_components/NewsSkeleton";
-import PublicNewsList from "../_components/PublicNewsList";
+import { PublicNewsList } from "../_components/PublicNewsList";
 
 export const metadata: Metadata = {
   title: "Latest news",
