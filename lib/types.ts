@@ -10,4 +10,5 @@ export type IPost = {
   isPermium: boolean; // spelled as in the schema
   author?: { name?: string | null } | null;
   _count?: { comments: number };
+  readingTime?: number | null;
 };

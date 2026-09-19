@@ -50,6 +50,14 @@ function formatViews(views: number) {
 
 const NewsCard = ({ post, className }: NewsCardProps) => {
   const plain = toPlainText(post.content);
+
+  const WORDS_PER_MINUTE = 200;
+
+  const calculateReadingTime = (content: string) => {
+    const words = content.trim().split(/\s+/).length;
+    return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+  };
+
   const excerpt =
     plain.length > 160 ? `${plain.slice(0, 160).trimEnd()}…` : plain;
   const comments = post._count?.comments ?? 0;
@@ -165,7 +173,7 @@ const NewsCard = ({ post, className }: NewsCardProps) => {
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
                 <Clock className="size-3.5" aria-hidden />
-                {readingTime(plain)} min read
+                {post.readingTime ?? calculateReadingTime(plain)} min read
               </span>
               <span className="flex items-center gap-1">
                 <Eye className="size-3.5" aria-hidden />
