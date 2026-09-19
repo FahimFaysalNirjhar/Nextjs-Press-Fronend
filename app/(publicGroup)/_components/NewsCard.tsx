@@ -21,19 +21,12 @@ type NewsCardProps = {
   className?: string;
 };
 
-const WORDS_PER_MINUTE = 200;
-
 function toPlainText(content: string) {
   return content
     .replace(/<[^>]*>/g, " ") // HTML tags
     .replace(/[#*_`>~\[\]()!-]+/g, " ") // basic markdown symbols
     .replace(/\s+/g, " ")
     .trim();
-}
-
-function readingTime(text: string) {
-  const words = text ? text.split(" ").length : 0;
-  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
 }
 
 function formatDate(value: Date | string) {
