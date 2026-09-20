@@ -4,13 +4,14 @@ import { Lock } from "lucide-react";
 import { NewsSkeleton } from "../_components/NewsSkeleton";
 import { PremiumNews } from "../_components/PremiumNewsList";
 import NewsSearchBar from "../_components/NewsSearchBar";
+import NewsFilters from "../_components/NewsFilters";
 
 export const metadata: Metadata = {
   title: "Premium news",
   description: "Long reads, analysis and data stories for subscribers.",
 };
 
-export default async function PremiumNewsPage({
+export default function PremiumNewsPage({
   searchParams,
 }: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -42,7 +43,14 @@ export default async function PremiumNewsPage({
         </div>
       </header>
 
-      {/* key makes the skeleton show again on every new search */}
+      <Suspense
+        fallback={
+          <div className="mb-6 h-10 w-full animate-pulse rounded-md bg-muted sm:w-96" />
+        }
+      >
+        <NewsFilters />
+      </Suspense>
+
       <Suspense fallback={<NewsSkeleton />}>
         <PremiumNews searchParams={searchParams} />
       </Suspense>

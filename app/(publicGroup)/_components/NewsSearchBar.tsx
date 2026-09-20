@@ -18,14 +18,15 @@ export default function NewsSearchBar() {
     }
 
     debouncedReference.current = setTimeout(() => {
-      const params = new URLSearchParams();
+      const params = new URLSearchParams(searchParams.toString()); // CHANGE 1
       if (value) {
         params.set("searchTerm", value);
       } else {
         params.delete("searchTerm");
       }
+      params.delete("page"); // CHANGE 2
 
-      router.replace(`${pathname}?${params.toString()}`);
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }, 500);
   };
 
@@ -34,11 +35,7 @@ export default function NewsSearchBar() {
       <div className="relative flex-1">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          defaultValue={
-            searchParams.get("searchTerm")
-              ? searchParams.get("searchTerm")?.toString()
-              : ""
-          }
+          defaultValue={searchParams.get("searchTerm") ?? ""}
           type="text"
           onChange={(e) => handleChange(e.target.value)}
           placeholder="Search news..."

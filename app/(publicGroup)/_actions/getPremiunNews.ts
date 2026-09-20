@@ -13,6 +13,20 @@ export const getPremiumNews = async ({
     params.set("searchTerm", query.searchTerm as string);
   }
 
+  if (query?.tag) {
+    params.set("tags", JSON.stringify([query.tag]));
+  }
+
+  if (query?.sort) {
+    const [sortBy, sortOrder] = (query.sort as string).split("-");
+
+    params.set("sortBy", sortBy);
+    params.set("sortOrder", sortOrder);
+  }
+
+  params.set("page", (query?.page as string) || "1");
+  params.set("limit", "9");
+
   const cookieStore = await cookies();
 
   const accessToken = cookieStore.get("accessToken")?.value;

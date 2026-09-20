@@ -1,6 +1,7 @@
 import { IPost } from "@/lib/types";
 import NewsCard from "./NewsCard";
 import { getPremiumNews } from "../_actions/getPremiunNews";
+import NewsPagination from "./NewsPagination";
 
 export const PremiumNews = async ({
   searchParams,
@@ -20,6 +21,8 @@ export const PremiumNews = async ({
   }
 
   const posts = result.data ?? [];
+  const totalPages = result.meta?.totalPage ?? 1;
+  const page = Number(query?.page) || 1;
 
   if (posts.length === 0) {
     return (
@@ -33,10 +36,14 @@ export const PremiumNews = async ({
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {posts.map((post: IPost) => (
-        <NewsCard key={post.id} post={post} />
-      ))}
-    </div>
+    <>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post: IPost) => (
+          <NewsCard key={post.id} post={post} />
+        ))}
+      </div>
+
+      <NewsPagination page={page} totalPages={totalPages} />
+    </>
   );
 };
