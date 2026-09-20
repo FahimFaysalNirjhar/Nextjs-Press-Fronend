@@ -1,11 +1,17 @@
 import { cookies } from "next/headers";
 
 export const getPremiumNews = async ({
-  search,
+  query,
 }: {
-  search?: { [key: string]: string | string[] | undefined };
+  query?: { [key: string]: string | string[] | undefined };
 }) => {
-  const searchTerm = `${search?.searchTerm ? `?searchTerm=${search.searchTerm}` : ""}`;
+  // const searchTerm = `${search?.searchTerm ? `?searchTerm=${search.searchTerm}` : ""}`;
+
+  const params = new URLSearchParams();
+
+  if (query && query.searchTerm) {
+    params.set("searchTerm", query.searchTerm as string);
+  }
 
   const cookieStore = await cookies();
 
@@ -20,7 +26,7 @@ export const getPremiumNews = async ({
   }
 
   const res = await fetch(
-    `${process.env.BACKEND_API_URL}/api/premium${searchTerm}`,
+    `${process.env.BACKEND_API_URL}/api/premium?${params.toString()}`,
     {
       headers: {
         cookie: `accessToken=${accessToken}`,

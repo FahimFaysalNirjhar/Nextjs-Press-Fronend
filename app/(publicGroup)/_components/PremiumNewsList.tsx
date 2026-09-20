@@ -7,8 +7,8 @@ export const PremiumNews = async ({
 }: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  const search = await searchParams;
-  const result = await getPremiumNews({ search });
+  const query = await searchParams;
+  const result = await getPremiumNews({ query });
 
   if (!result.success) {
     return (
