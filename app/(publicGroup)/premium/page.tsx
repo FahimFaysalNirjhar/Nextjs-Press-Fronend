@@ -9,7 +9,11 @@ export const metadata: Metadata = {
   description: "Long reads, analysis and data stories for subscribers.",
 };
 
-export default function PremiumNewsPage() {
+export default async function PremiumNewsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:py-14">
       {/* Static header renders immediately, only the list waits on the database */}
@@ -27,7 +31,7 @@ export default function PremiumNewsPage() {
       </header>
 
       <Suspense fallback={<NewsSkeleton />}>
-        <PremiumNews />
+        <PremiumNews searchParams={searchParams} />
       </Suspense>
     </section>
   );
