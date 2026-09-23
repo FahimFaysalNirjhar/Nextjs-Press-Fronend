@@ -12,3 +12,27 @@ export type IPost = {
   _count?: { comments: number };
   readingTime?: number | null;
 };
+
+export type ActiveStatus = "ACTIVE" | "BLOCKED";
+
+export type UserRole = "USER" | "ADMIN" | "AUTHOR";
+
+export type IUser = {
+  id: string;
+  name: string;
+  email: string;
+  activeStatus: ActiveStatus;
+  role: UserRole;
+  createdAt: string;
+  updatedAt: string;
+  profile: {
+    id: string;
+    profilePhoto: string | null;
+    bio: string | null;
+    userId: string;
+  };
+};
+
+export type NavbarProps = {
+  user: IUser | null;
+};

@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { LogOut, Settings, UserRound } from "lucide-react";
 import { logOut } from "@/service/logout";
 import { toast } from "sonner";
+import { NavbarProps } from "@/lib/types";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard" },
@@ -24,30 +25,6 @@ const navItems = [
   { label: "Reports", href: "/reports" },
   { label: "Settings", href: "/settings" },
 ];
-
-type ActiveStatus = "ACTIVE" | "BLOCKED";
-
-type UserRole = "USER" | "ADMIN" | "AUTHOR";
-
-type IUser = {
-  id: string;
-  name: string;
-  email: string;
-  activeStatus: ActiveStatus;
-  role: UserRole;
-  createdAt: string;
-  updatedAt: string;
-  profile: {
-    id: string;
-    profilePhoto: string | null;
-    bio: string | null;
-    userId: string;
-  };
-};
-
-type NavbarProps = {
-  user: IUser | null;
-};
 
 export function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
