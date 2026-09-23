@@ -27,7 +27,7 @@ export const getPublicNews = async ({
     `${process.env.BACKEND_API_URL}/api/posts?${params.toString()}`,
     {
       cache: "force-cache",
-      next: { revalidate: 60 * 60 * 6, tags: ["premium-posts"] },
+      next: { revalidate: 60 * 60 * 6, tags: ["public-posts"] },
     },
   );
 

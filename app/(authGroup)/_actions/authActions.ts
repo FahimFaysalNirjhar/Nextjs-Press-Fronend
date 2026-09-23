@@ -104,7 +104,7 @@ export const loginAction = async (
     if (decodedToken.role === "USER") {
       redirect("/dashboard");
     } else if (decodedToken.role == "AUTHOR") {
-      redirect("/author-dashborad");
+      redirect("/author-dashboard");
     }
   }
 
