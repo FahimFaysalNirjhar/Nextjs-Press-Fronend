@@ -12,18 +12,18 @@ export const metadata: Metadata = {
 
 export default function MyPostsPage() {
   return (
-    <div className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">My posts</h1>
-          <p className="mt-1 text-muted-foreground">
+    <div className="mx-auto w-full max-w-[1600px] space-y-8 p-4 sm:p-6 lg:p-8">
+      <header className="flex flex-col gap-4 border-b pb-6 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-bold tracking-tight">My posts</h1>
+          <p className="text-muted-foreground">
             Write, edit, and manage your stories.
           </p>
         </div>
 
         <PostFormDialog
           trigger={
-            <Button>
+            <Button size="lg" className="w-full sm:w-auto">
               <Plus className="size-4" aria-hidden />
               New post
             </Button>
