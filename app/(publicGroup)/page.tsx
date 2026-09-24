@@ -1,7 +1,20 @@
-import Image from "next/image";
+// app/(publicGroup)/page.tsx
+import { Suspense } from "react";
+import type { Metadata } from "next";
 
-export default async function Home() {
+import HomeContent from "./_components/home/HomeContent";
+import HomeSkeleton from "./_components/home/HomeSkeleton";
+
+export const metadata: Metadata = {
+  title: "Nextjs Press: Independent news and in-depth stories",
+  description:
+    "Clear reporting, in-depth analysis and premium long reads from Nextjs Press.",
+};
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black"></div>
+    <Suspense fallback={<HomeSkeleton />}>
+      <HomeContent />
+    </Suspense>
   );
 }
