@@ -1,3 +1,4 @@
+import { Footer } from "@/components/shared/footer";
 import { Navbar } from "@/components/shared/navbar";
 import { getMe } from "@/service/getMe";
 import React from "react";
@@ -9,6 +10,7 @@ const AuthGroupLayout = async ({ children }: { children: React.ReactNode }) => {
     <div>
       <Navbar user={user} />
       {children}
+      <Footer />
     </div>
   );
 };
