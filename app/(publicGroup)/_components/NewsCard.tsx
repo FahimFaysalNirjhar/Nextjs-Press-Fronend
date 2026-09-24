@@ -43,6 +43,7 @@ function formatViews(views: number) {
 
 const NewsCard = ({ post, className }: NewsCardProps) => {
   const plain = toPlainText(post.content);
+  const href = post.isPermium ? `/premium/${post.id}` : `/news/${post.id}`;
 
   const WORDS_PER_MINUTE = 200;
 
@@ -58,7 +59,7 @@ const NewsCard = ({ post, className }: NewsCardProps) => {
 
   return (
     <Link
-      href={`/news/${post.id}`}
+      href={href}
       className={cn(
         "group block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         post.isFeatured && "md:col-span-2",
