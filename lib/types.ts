@@ -36,3 +36,7 @@ export type IUser = {
 export type NavbarProps = {
   user: IUser | null;
 };
+
+export type PageProps = {
+  searchParams: Promise<{ success?: string }>;
+};

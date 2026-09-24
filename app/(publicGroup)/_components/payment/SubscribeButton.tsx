@@ -11,6 +11,7 @@ const SubscribeButton = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [needsLogin, setNeedsLogin] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
 
   const handleSubscribe = () => {
     setError(null);
@@ -21,22 +22,38 @@ const SubscribeButton = () => {
       // so anything below only runs when checkout could NOT be started.
       const result = await subscribePremium();
 
-      setError(
-        result?.success
-          ? "Could not start checkout. Please try again."
-          : (result?.message ?? "Could not start checkout. Please try again."),
-      );
+      if (result.success) {
+        setRedirecting(true);
+        window.location.assign(result.url);
+        return;
+      }
+
+      // setError(
+      //   result?.success
+      //     ? "Could not start checkout. Please try again."
+      //     : (result?.message ?? "Could not start checkout. Please try again."),
+      // );
+      setError(result.message);
       setNeedsLogin(result?.statusCode === 401 || result?.statusCode === 403);
     });
   };
 
   return (
     <div className="flex w-full flex-col gap-3">
-      <Button className="w-full" onClick={handleSubscribe} disabled={isPending}>
-        {isPending && <Loader2 className="size-4 animate-spin" aria-hidden />}
-        {isPending ? "Redirecting to checkout…" : "Subscribe"}
+      <Button
+        className="w-full"
+        onClick={handleSubscribe}
+        disabled={isPending || redirecting}
+      >
+        {(isPending || redirecting) && (
+          <Loader2 className="size-4 animate-spin" aria-hidden />
+        )}
+        {redirecting
+          ? "Redirecting to checkout…"
+          : isPending
+            ? "Starting checkout…"
+            : "Subscribe"}
       </Button>
-
       {error && (
         <p role="alert" className="text-center text-sm text-destructive">
           {error}{" "}
