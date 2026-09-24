@@ -27,7 +27,7 @@ const columns = [
   {
     title: "Company",
     links: [
-      { label: "Contact", href: "mailto:hello@yourdomain.com" },
+      { label: "Contact", href: "/contact" },
       { label: "Privacy policy", href: "/privacy" },
       { label: "Terms of use", href: "/terms" },
     ],
