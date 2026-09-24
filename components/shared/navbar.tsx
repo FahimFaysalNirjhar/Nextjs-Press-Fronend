@@ -51,13 +51,13 @@ const dashboardByRole = {
   ADMIN: { label: "Admin Dashboard", href: "/admin-dashboard", badge: "Admin" },
   AUTHOR: {
     label: "Author Dashboard",
-    href: "/dashboard/author",
+    href: "/author-dashboard",
     badge: "Author",
   },
   USER: { label: "My Dashboard", href: "/dashboard", badge: "Member" },
 } as const;
 
-const PROFILE_HREF = "/dashboard/profile";
+const PROFILE_HREF = "/";
 
 /* ---------- Small helpers ---------- */
 
