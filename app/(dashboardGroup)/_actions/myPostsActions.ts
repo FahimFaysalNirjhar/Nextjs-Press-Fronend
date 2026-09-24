@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { isAccessTokenExist } from "@/service/isAccessTokenExist";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -22,12 +23,14 @@ export const createPost = async (prevState: PostState, formData: FormData) => {
     tags: (formData.get("tags") as string)?.split(", ").filter(Boolean) ?? [],
   };
 
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
+  // const cookieStore = await cookies();
+  // const accessToken = cookieStore.get("accessToken")?.value;
 
-  if (!accessToken) {
-    return { success: false, message: "User not logged in." };
-  }
+  // if (!accessToken) {
+  //   return { success: false, message: "User not logged in." };
+  // }
+
+  const accessToken = await isAccessTokenExist();
 
   const res = await fetch(`${process.env.BACKEND_API_URL}/api/posts`, {
     method: "POST",
@@ -80,17 +83,19 @@ export const updatePost = async (
     tags: (formData.get("tags") as string).split(", ") ?? "",
   };
 
-  const cookieStore = await cookies();
+  // const cookieStore = await cookies();
 
-  const accessToken = cookieStore.get("accessToken")?.value;
-  console.log(accessToken);
+  // const accessToken = cookieStore.get("accessToken")?.value;
+  // console.log(accessToken);
 
-  if (!accessToken) {
-    return {
-      success: false,
-      message: "User not not logged in.",
-    };
-  }
+  // if (!accessToken) {
+  //   return {
+  //     success: false,
+  //     message: "User not not logged in.",
+  //   };
+  // }
+
+  const accessToken = await isAccessTokenExist();
 
   const res = await fetch(
     `${process.env.BACKEND_API_URL}/api/posts/${postId}`,
