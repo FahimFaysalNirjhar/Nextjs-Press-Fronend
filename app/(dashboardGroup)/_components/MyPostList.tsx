@@ -9,7 +9,7 @@ export default async function MyPostList() {
 
   if (!result.success) {
     return (
-      <div className="flex min-h-[320px] flex-col items-center justify-center rounded-2xl border border-dashed border-destructive/40 bg-destructive/5 p-10 text-center">
+      <div className="flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-destructive/40 bg-destructive/5 p-10 text-center">
         <AlertCircle className="mb-3 size-8 text-destructive" aria-hidden />
         <p className="text-lg font-semibold">Couldn&apos;t load your posts</p>
         <p className="mt-1 max-w-sm text-sm text-muted-foreground">
@@ -23,7 +23,7 @@ export default async function MyPostList() {
 
   if (posts.length === 0) {
     return (
-      <div className="flex min-h-[320px] flex-col items-center justify-center rounded-2xl border border-dashed bg-muted/30 p-10 text-center">
+      <div className="flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed bg-muted/30 p-10 text-center">
         <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-primary/10">
           <FileText className="size-7 text-primary" aria-hidden />
         </div>

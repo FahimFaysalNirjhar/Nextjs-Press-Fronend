@@ -62,6 +62,7 @@ const PASSWORD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/;
 
 export const loginAction = async (
+  redirectTo: string,
   prevState: LoginState,
   formdata: FormData,
 ) => {
@@ -100,6 +101,15 @@ export const loginAction = async (
     const decodedToken = jwt.decode(result.data.accessToken) as JwtPayload;
 
     // console.log(decodedToken, "decodedToken");
+
+    if (
+      redirectTo &&
+      typeof redirectTo === "string" &&
+      redirectTo.startsWith("/") &&
+      !redirectTo.startsWith("//")
+    ) {
+      redirect(redirectTo);
+    }
 
     if (decodedToken.role === "USER") {
       redirect("/dashboard");
