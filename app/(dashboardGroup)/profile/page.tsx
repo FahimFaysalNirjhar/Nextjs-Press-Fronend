@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { getMe } from "@/service/getMe";
-import { ProfileDetails } from "../_components/_profile/ProfileDetails";
-import { ProfileSkeleton } from "../_components/_profile/ProfileSkeleton";
+import { ProfileDetails } from "../_components/profile/ProfileDetails";
+import { ProfileSkeleton } from "../_components/profile/ProfileSkeleton";
 
 async function ProfileContent() {
   const result = await getMe();
@@ -20,7 +20,7 @@ async function ProfileContent() {
 
 export default function ProfilePage() {
   return (
-    <div className="mx-auto max-w-2xl space-y-6">
+    <div className="mx-auto w-full max-w-2xl space-y-6 px-6 py-10 sm:px-10 lg:px-12">
       <header>
         <h1 className="text-2xl font-semibold tracking-tight">Profile</h1>
         <p className="mt-1 text-muted-foreground">
