@@ -32,13 +32,23 @@ type DashboardSidebarProps = {
 export function DashboardSidebar({ user }: DashboardSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const { state, toggleSidebar } = useSidebar();
+
+  const { state, toggleSidebar, setOpenMobile } = useSidebar();
 
   const items = navByRole[user.role];
 
+  const handleNavigation = () => {
+    // Close sidebar when navigating on mobile
+    setOpenMobile(false);
+  };
+
   const handleLogout = async () => {
     try {
+      // Close mobile sidebar first
+      setOpenMobile(false);
+
       await logOut();
+
       toast.success("Logged out successfully");
       router.push("/Login");
     } catch (error) {
@@ -49,10 +59,7 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
 
   return (
     <TooltipProvider>
-      <Sidebar
-        collapsible="icon" // 👈 changed from "offcanvas"
-        className="top-14 h-[calc(100svh-3.5rem)]"
-      >
+      <Sidebar collapsible="icon" className="top-14 h-[calc(100svh-3.5rem)]">
         {/* Sidebar Header */}
         <div className="flex h-16 items-center justify-between border-b px-4 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
           {state === "expanded" ? (
@@ -61,8 +68,10 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">
                   NP
                 </div>
+
                 <div className="flex flex-col">
                   <span className="text-sm font-semibold">Nextjs Press</span>
+
                   <span className="text-xs text-muted-foreground">
                     Dashboard
                   </span>
@@ -79,7 +88,6 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
               </button>
             </>
           ) : (
-            // Collapsed: logo doubles as the expand button (swaps to icon on hover)
             <button
               type="button"
               onClick={toggleSidebar}
@@ -87,6 +95,7 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
               className="group/logo flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground"
             >
               <span className="group-hover/logo:hidden">NP</span>
+
               <PanelLeftOpen className="hidden h-4 w-4 group-hover/logo:block" />
             </button>
           )}
@@ -100,6 +109,7 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
                 src={user.profile?.profilePhoto ?? undefined}
                 alt={user.name}
               />
+
               <AvatarFallback>
                 {user.name?.charAt(0).toUpperCase()}
               </AvatarFallback>
@@ -108,9 +118,11 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
             {state === "expanded" && (
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium">{user.name}</p>
+
                 <p className="truncate text-xs text-muted-foreground">
                   {user.email}
                 </p>
+
                 <Badge
                   variant="secondary"
                   className="mt-1 px-1.5 py-0 text-[10px]"
@@ -146,7 +158,7 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
                         tooltip={item.label}
                         className="h-10 rounded-lg transition-all data-[active=true]:bg-primary data-[active=true]:text-primary-foreground data-[active=true]:shadow-sm"
                       >
-                        <Link href={item.href}>
+                        <Link href={item.href} onClick={handleNavigation}>
                           <Icon className="h-4 w-4" />
                           <span>{item.label}</span>
                         </Link>
