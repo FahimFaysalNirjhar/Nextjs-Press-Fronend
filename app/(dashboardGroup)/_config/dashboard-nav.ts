@@ -35,7 +35,7 @@ export const navByRole: Record<Role, NavItem[]> = {
     },
     { label: "My comments", href: "/dashboard/comments", icon: MessageSquare },
     { label: "Become an author", href: "/dashboard/apply", icon: PenLine },
-    { label: "Profile", href: "/dashboard/profile", icon: UserCircle },
+    { label: "Profile", href: "/profile", icon: UserCircle },
   ],
   AUTHOR: [
     {
@@ -50,7 +50,7 @@ export const navByRole: Record<Role, NavItem[]> = {
       href: "/author-dashboard/comments",
       icon: MessageSquare,
     },
-    { label: "Profile", href: "/author-dashboard/profile", icon: UserCircle },
+    { label: "Profile", href: "/profile", icon: UserCircle },
   ],
   ADMIN: [
     {
@@ -71,5 +71,6 @@ export const navByRole: Record<Role, NavItem[]> = {
       href: "/admin-dashboard/subscriptions",
       icon: CreditCard,
     },
+    { label: "Profile", href: "/profile", icon: UserCircle },
   ],
 };
