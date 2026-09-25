@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getCommentsByPostId } from "../../_actions/getCommentsByPostId";
 
 type Comment = {
@@ -11,7 +12,9 @@ export async function CommentList({ postId }: { postId: string }) {
   const result = await getCommentsByPostId(postId);
 
   const raw = result?.data;
-  const comments: Comment[] = Array.isArray(raw) ? raw : [];
+  const comments: Comment[] = Array.isArray(raw)
+    ? raw.filter((c: any) => c.status === "APPROVED")
+    : [];
 
   if (!result?.success) {
     return (
