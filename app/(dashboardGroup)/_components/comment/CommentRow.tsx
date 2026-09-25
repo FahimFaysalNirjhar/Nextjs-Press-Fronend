@@ -13,7 +13,7 @@ import {
 
 type CommentRowProps = {
   id: string;
-  postId: string; // ← add this
+  postId: string;
   content: string;
   createdAt: string;
   status?: string;
@@ -26,7 +26,7 @@ type CommentRowProps = {
 
 export function CommentRow({
   id,
-  postId, // ← add this
+  postId,
   content,
   createdAt,
   status,
@@ -61,7 +61,7 @@ export function CommentRow({
 
   const handleModerate = (next: "APPROVED" | "REJECT") => {
     startTransition(async () => {
-      const result = await updateCommentStatus(id, postId, next); // ← pass postId
+      const result = await updateCommentStatus(id, postId, next);
       if (result.success) {
         toast.success(`Comment ${next.toLowerCase()}`);
         router.refresh();
@@ -72,74 +72,94 @@ export function CommentRow({
   };
 
   return (
-    <div className="rounded-lg border p-4">
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div className="min-w-0">
-          {authorName && <p className="text-sm font-medium">{authorName}</p>}
-          {postTitle && (
-            <p className="truncate text-xs text-muted-foreground">
-              on &quot;{postTitle}&quot;
-            </p>
-          )}
+    <div className="group mb-4 rounded-xl border bg-card p-5 transition-colors hover:border-border/80">
+      {/* Top row: avatar + author/post info + status/date */}
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start gap-3 min-w-0">
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-semibold text-muted-foreground">
+            {authorName?.charAt(0).toUpperCase() ?? "?"}
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              {authorName && (
+                <p className="text-sm font-semibold leading-none">
+                  {authorName}
+                </p>
+              )}
+              {status && (
+                <Badge
+                  variant={
+                    status === "APPROVED"
+                      ? "default"
+                      : status === "REJECT"
+                        ? "destructive"
+                        : "secondary"
+                  }
+                  className="h-5 px-1.5 text-[10px] font-medium uppercase tracking-wide"
+                >
+                  {status}
+                </Badge>
+              )}
+            </div>
+            {postTitle && (
+              <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                on &quot;{postTitle}&quot;
+              </p>
+            )}
+          </div>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
-          {status && (
-            <Badge
-              // around the Badge component
-              variant={
-                status === "APPROVED"
-                  ? "default"
-                  : status === "REJECT" // ← change from "REJECTED" to "REJECT"
-                    ? "destructive"
-                    : "secondary"
-              }
-            >
-              {status}
-            </Badge>
-          )}
-          <span className="text-xs text-muted-foreground">{date}</span>
-        </div>
+
+        <span className="shrink-0 whitespace-nowrap text-xs text-muted-foreground">
+          {date}
+        </span>
       </div>
 
-      <p className="mt-2 whitespace-pre-line text-sm text-foreground/90">
+      {/* Comment content */}
+      <p className="mt-3 whitespace-pre-line pl-12 text-sm leading-relaxed text-foreground/90">
         {content}
       </p>
 
-      <div className="mt-3 flex justify-end gap-2">
-        {showModeration && status !== "APPROVED" && (
-          <Button
-            size="sm"
-            variant="outline"
-            disabled={isPending}
-            onClick={() => handleModerate("APPROVED")}
-          >
-            <Check className="size-4" aria-hidden />
-            Approve
-          </Button>
-        )}
-        {showModeration && status !== "REJECT" && (
-          <Button
-            size="sm"
-            variant="outline"
-            disabled={isPending}
-            onClick={() => handleModerate("REJECT")}
-          >
-            <X className="size-4" aria-hidden />
-            Reject
-          </Button>
-        )}
-        {canDelete && (
-          <Button
-            size="sm"
-            variant="destructive"
-            disabled={isPending}
-            onClick={handleDelete}
-          >
-            <Trash2 className="size-4" aria-hidden />
-            Delete
-          </Button>
-        )}
-      </div>
+      {/* Actions */}
+      {(showModeration || canDelete) && (
+        <div className="mt-4 flex justify-end gap-2 border-t pt-3">
+          {showModeration && status !== "APPROVED" && (
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={isPending}
+              onClick={() => handleModerate("APPROVED")}
+              className="h-8 gap-1.5 text-xs"
+            >
+              <Check className="size-3.5" aria-hidden />
+              Approve
+            </Button>
+          )}
+          {showModeration && status !== "REJECT" && (
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={isPending}
+              onClick={() => handleModerate("REJECT")}
+              className="h-8 gap-1.5 text-xs"
+            >
+              <X className="size-3.5" aria-hidden />
+              Reject
+            </Button>
+          )}
+          {canDelete && (
+            <Button
+              size="sm"
+              variant="destructive"
+              disabled={isPending}
+              onClick={handleDelete}
+              className="h-8 gap-1.5 text-xs"
+            >
+              <Trash2 className="size-3.5" aria-hidden />
+              Delete
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
