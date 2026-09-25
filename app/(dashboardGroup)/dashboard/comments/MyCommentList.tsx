@@ -38,14 +38,12 @@ export async function MyCommentList() {
         <CommentRow
           key={comment.id}
           id={comment.id}
-          postId={comment.postId ?? comment.post?.id} // ← check which shape your API returns
+          postId={comment.postId ?? comment.post?.id}
           content={comment.content}
           createdAt={comment.createdAt}
           status={comment.status}
-          authorName={comment.author?.name}
           postTitle={comment.post?.title}
-          revalidateTagName="all-comments"
-          showModeration
+          revalidateTagName="my-comments"
           canDelete
         />
       ))}

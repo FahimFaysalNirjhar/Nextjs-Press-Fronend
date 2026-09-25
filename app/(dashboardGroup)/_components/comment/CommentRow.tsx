@@ -49,7 +49,7 @@ export function CommentRow({
     if (!confirm("Delete this comment? This can't be undone.")) return;
 
     startTransition(async () => {
-      const result = await deleteComment(id, revalidateTagName);
+      const result = await deleteComment(id, postId, revalidateTagName);
       if (result.success) {
         toast.success(result.message || "Comment deleted");
         router.refresh();

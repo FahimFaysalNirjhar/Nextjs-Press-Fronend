@@ -123,22 +123,25 @@ export const updateCommentStatus = async (
 
   if (result.success) {
     revalidateTag("all-comments", { expire: 0 });
-    revalidateTag(`comments-${postId}`, { expire: 0 });
+    revalidateTag(`comments-${postId}`, { expire: 0 }); // ← this line is missing
   }
 
   return result;
 };
 
 // Shared: delete a comment (owner, post's author, or admin — backend enforces the rule)
-export const deleteComment = async (commentId: string, tag: string) => {
+export const deleteComment = async (
+  commentId: string,
+  postId: string,
+  tag: string,
+) => {
   const result = await authFetch(`/api/comments/${commentId}`, {
     method: "DELETE",
   });
 
   if (result.success) {
-    revalidateTag(tag, {
-      expire: 0,
-    });
+    revalidateTag(tag, { expire: 0 });
+    revalidateTag(`comments-${postId}`, { expire: 0 });
   }
 
   return result;
