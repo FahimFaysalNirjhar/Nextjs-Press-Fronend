@@ -44,6 +44,11 @@ export const navByRole: Record<Role, NavItem[]> = {
       icon: LayoutDashboard,
       exact: true,
     },
+    {
+      label: "My subscription",
+      href: "/author-dashboard/subscription",
+      icon: CreditCard,
+    },
     { label: "My posts", href: "/author-dashboard/my-posts", icon: FileText },
     {
       label: "Comments",
