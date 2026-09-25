@@ -1,4 +1,7 @@
+// UserDashboardPage.tsx
+import { Suspense } from "react";
 import { MyCommentList } from "./MyCommentList";
+import { MyCommentListSkeleton } from "./MyCommentListSkeleton";
 
 export default function UserDashboardPage() {
   return (
@@ -20,7 +23,9 @@ export default function UserDashboardPage() {
           </p>
         </div>
 
-        <MyCommentList />
+        <Suspense fallback={<MyCommentListSkeleton />}>
+          <MyCommentList />
+        </Suspense>
       </section>
     </div>
   );

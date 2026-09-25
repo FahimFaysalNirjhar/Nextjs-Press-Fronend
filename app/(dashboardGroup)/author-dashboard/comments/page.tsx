@@ -1,4 +1,9 @@
+// AuthorDashboardPage.tsx
+import { Suspense } from "react";
 import { AuthorCommentList } from "./AuthorCommentList";
+import { MyCommentListSkeleton } from "../../dashboard/comments/MyCommentListSkeleton";
+
+// or wherever you keep it — reuse the same skeleton, the row shape is identical
 
 export default function AuthorDashboardPage() {
   return (
@@ -20,7 +25,9 @@ export default function AuthorDashboardPage() {
           </p>
         </div>
 
-        <AuthorCommentList />
+        <Suspense fallback={<MyCommentListSkeleton />}>
+          <AuthorCommentList />
+        </Suspense>
       </section>
     </div>
   );

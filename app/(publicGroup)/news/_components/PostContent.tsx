@@ -5,6 +5,8 @@ import Link from "next/link";
 import { CalendarDays, Eye, Lock, Star, ArrowLeft } from "lucide-react";
 import { getPublicPostById } from "../../_actions/getPublicPostById";
 import { CommentSection } from "../../_components/comment/CommentSection";
+import { Suspense } from "react";
+import { CommentSectionSkeleton } from "../../_components/comment/CommentSectionSkeleton";
 // adjust to your depth
 
 export default async function PostContent({
@@ -148,7 +150,9 @@ export default async function PostContent({
           </div>
         </footer>
       )}
-      <CommentSection postId={post.id} />
+      <Suspense fallback={<CommentSectionSkeleton />}>
+        <CommentSection postId={post.id} />
+      </Suspense>
     </article>
   );
 }
