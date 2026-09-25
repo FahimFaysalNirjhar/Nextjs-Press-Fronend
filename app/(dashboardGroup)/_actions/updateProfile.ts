@@ -42,7 +42,9 @@ export const updateProfile = async (
 
     const result = await res.json();
     if (result.success) {
-      revalidateTag("me", "max");
+      revalidateTag("my-profile", {
+        expire: 0,
+      });
     }
 
     return result;
