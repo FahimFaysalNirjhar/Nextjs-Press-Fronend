@@ -8,7 +8,7 @@ const AuthGroupLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = result.success ? result.data.profile : null;
   return (
     <div>
-      <Navbar user={user} />
+      {/* <Navbar user={user} /> */}
       {children}
       <Footer />
     </div>
