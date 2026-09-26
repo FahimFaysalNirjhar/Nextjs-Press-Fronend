@@ -7,7 +7,7 @@ const verifyToken = (token: string, secret: string) => {
     const verifiedToken = jwt.verify(token, secret);
     return { success: true, data: verifiedToken };
   } catch (error: any) {
-    console.log("Token verificatin failed", error);
+    // console.log("Token verificatin failed", error);
     return { success: false, error: error.message };
   }
 };

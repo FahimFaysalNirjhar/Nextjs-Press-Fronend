@@ -6,7 +6,7 @@ export const getNewRefreshToken = async () => {
   const cookieStore = await cookies();
 
   const refreshToken = cookieStore.get("refreshToken")?.value;
-  console.log(refreshToken);
+  // console.log(refreshToken);
 
   if (!refreshToken) {
     return {

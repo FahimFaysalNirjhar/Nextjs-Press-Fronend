@@ -18,11 +18,11 @@ export async function CommentList({ postId }: { postId: string }) {
     getCurrentUser(),
   ]);
 
-  console.log("currentUser:", currentUser);
-  console.log(
-    "comments:",
-    result?.data?.map((c: any) => ({ id: c.id, authorId: c.authorId })),
-  );
+  // console.log("currentUser:", currentUser);
+  // // console.log(
+  //   "comments:",
+  //   result?.data?.map((c: any) => ({ id: c.id, authorId: c.authorId })),
+  // );
 
   const raw = result?.data;
   const comments: Comment[] = Array.isArray(raw)
