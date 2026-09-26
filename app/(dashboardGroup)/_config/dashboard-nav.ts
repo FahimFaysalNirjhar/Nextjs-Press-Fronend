@@ -76,11 +76,7 @@ export const navByRole: Record<Role, NavItem[]> = {
       href: "/admin-dashboard/comments",
       icon: MessageSquare,
     },
-    {
-      label: "Subscriptions",
-      href: "/admin-dashboard/subscriptions",
-      icon: CreditCard,
-    },
+
     { label: "Profile", href: "/profile", icon: UserCircle },
   ],
 };
