@@ -23,7 +23,7 @@ const RegisterForm = () => {
     if (!state) return;
     if (state.success) {
       toast.success(state.message || "Account created successfully");
-      router.push("/login");
+      router.push("/Login");
     } else {
       toast.error(state.message || "Registration failed. Please try again.");
     }
@@ -187,7 +187,7 @@ const RegisterForm = () => {
         <p className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link
-            href="/login"
+            href="/Login"
             className="font-medium text-primary hover:underline"
           >
             Login

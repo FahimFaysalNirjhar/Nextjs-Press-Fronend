@@ -59,7 +59,7 @@ const SubscribeButton = () => {
           {error}{" "}
           {needsLogin && (
             <Link
-              href="/login"
+              href="/Login"
               className="font-medium underline underline-offset-4"
             >
               Log in

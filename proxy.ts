@@ -6,12 +6,12 @@ import { cookies } from "next/headers";
 import { getNewRefreshToken } from "./service/refreshToken";
 import { getSubscriptionStatus } from "./app/(publicGroup)/_actions/getSubscriptionStatus";
 
-// This function can be marked `async` if using `await` inside
-const AUTH_ROUTE = ["/Login", "/Register"];
+const AUTH_ROUTE = ["/login", "/register"]; // lowercase, used for comparison
 const PUBLIC_ROUTE = ["/", "/news"];
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const normalizedPath = pathname.toLowerCase();
 
   const cookieStore = await cookies();
 
@@ -51,10 +51,24 @@ export async function proxy(request: NextRequest) {
   }
 
   let userRole = null;
-  const isAuthRoute = AUTH_ROUTE.includes(pathname);
+
+  const isAuthRoute = AUTH_ROUTE.includes(normalizedPath);
   const isPublicRoute = PUBLIC_ROUTE.some(
-    (route) => pathname === route || pathname.startsWith(route + "/"),
+    (route) =>
+      normalizedPath === route || normalizedPath.startsWith(route + "/"),
   );
+
+  // Catch stray lowercase /login or /register and bounce to the real capitalized page
+  if (normalizedPath === "/login" && pathname !== "/Login") {
+    const url = new URL("/Login", request.url);
+    url.search = request.nextUrl.search;
+    return NextResponse.redirect(url);
+  }
+  if (normalizedPath === "/register" && pathname !== "/Register") {
+    const url = new URL("/Register", request.url);
+    url.search = request.nextUrl.search;
+    return NextResponse.redirect(url);
+  }
 
   if (!decodedAccessToken?.success) {
     cookieStore.delete("accessToken");
@@ -65,7 +79,7 @@ export async function proxy(request: NextRequest) {
     userRole = (decodedAccessToken.data as JwtPayload).role;
   }
 
-  if (accessToken && AUTH_ROUTE.includes(pathname)) {
+  if (accessToken && isAuthRoute) {
     if (userRole === "USER") {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     } else if (userRole === "AUTHOR") {
@@ -79,9 +93,7 @@ export async function proxy(request: NextRequest) {
 
   if (!accessToken && !isPublicRoute && !isAuthRoute) {
     const loginUrl = new URL("/Login", request.url);
-
     loginUrl.searchParams.set("redirectTo", pathname);
-
     return NextResponse.redirect(loginUrl);
   }
 
@@ -109,12 +121,7 @@ export async function proxy(request: NextRequest) {
   }
 
   return NextResponse.next();
-
-  //   return NextResponse.redirect(new URL("/home", request.url));
 }
-
-// Alternatively, you can use a default export:
-// export default function proxy(request: NextRequest) { ... }
 
 export const config = {
   matcher: [
