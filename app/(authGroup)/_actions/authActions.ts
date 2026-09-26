@@ -4,16 +4,15 @@ import { cookies } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { redirect } from "next/navigation";
 
-type LoginState = {
+export type LoginState = {
   success: boolean;
   statusCode: number;
-  message: "User logged in successfully";
-  data: {
+  message: string; // ← fixed from literal
+  data?: {
     accessToken: string;
     refreshToken: string;
   };
-};
-
+} | null;
 type RegisterSuccessState = {
   success: true;
   statusCode: number;
