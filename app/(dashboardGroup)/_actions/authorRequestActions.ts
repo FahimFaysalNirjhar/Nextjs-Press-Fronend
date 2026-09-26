@@ -52,3 +52,20 @@ export const submitAuthorRequest = async (
 
   return result;
 };
+
+export const getAllAuthorRequests = async (status?: string) => {
+  const query = status ? `?status=${status}` : "";
+  return authFetch(`/api/users/author-requests${query}`);
+};
+
+export const reviewAuthorRequest = async (
+  requestId: string,
+  status: "APPROVED" | "REJECTED",
+) => {
+  const result = await authFetch(`/api/users/author-requests/${requestId}`, {
+    method: "PATCH",
+    body: JSON.stringify({ status }),
+  });
+
+  return result;
+};
