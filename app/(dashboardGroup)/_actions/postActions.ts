@@ -33,3 +33,24 @@ async function authFetch(path: string, options: RequestInit = {}) {
 export const getAllPostsForAdmin = async () => {
   return authFetch("/api/posts/admin/all");
 };
+
+export const deletePost = async (postId: string) => {
+  return authFetch(`/api/posts/${postId}`, {
+    method: "DELETE",
+  });
+};
+
+export const updatePost = async (
+  postId: string,
+  payload: {
+    title?: string;
+    status?: string;
+    isFeatured?: boolean;
+    isPermium?: boolean;
+  },
+) => {
+  return authFetch(`/api/posts/${postId}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+};

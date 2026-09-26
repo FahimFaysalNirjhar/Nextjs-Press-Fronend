@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // app/(dashboardGroup)/admin-dashboard/posts/AllPostsList.tsx
-import Link from "next/link";
-import { Newspaper, Star, Lock } from "lucide-react";
+import { Newspaper } from "lucide-react";
 import { getAllPostsForAdmin } from "../../_actions/postActions";
-
-const statusStyles: Record<string, string> = {
-  PUBLISHED: "bg-emerald-500/10 text-emerald-600 border-emerald-500/30",
-  DRAFT: "bg-amber-500/10 text-amber-600 border-amber-500/30",
-  ARCHIVED: "bg-muted text-muted-foreground border-border",
-};
+import { PostRow } from "./PostRow";
 
 export async function AllPostsList() {
   const result = await getAllPostsForAdmin();
@@ -48,60 +42,13 @@ export async function AllPostsList() {
             <th className="px-4 py-3 font-medium">Views</th>
             <th className="px-4 py-3 font-medium">Comments</th>
             <th className="px-4 py-3 font-medium">Created</th>
+            <th className="px-4 py-3 font-medium">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {posts.map((post: any) => {
-            const created = new Date(post.createdAt).toLocaleDateString(
-              "en-US",
-              { month: "short", day: "numeric", year: "numeric" },
-            );
-
-            return (
-              <tr key={post.id} className="border-b last:border-b-0">
-                <td className="max-w-xs truncate px-4 py-3 font-medium">
-                  <Link href={`/news/${post.id}`} className="hover:underline">
-                    {post.title}
-                  </Link>
-                </td>
-                <td className="px-4 py-3 text-muted-foreground">
-                  {post.author?.name ?? "Unknown"}
-                </td>
-                <td className="px-4 py-3">
-                  <span
-                    className={`rounded-full border px-2 py-0.5 text-xs font-medium ${
-                      statusStyles[post.status] ?? statusStyles.DRAFT
-                    }`}
-                  >
-                    {post.status}
-                  </span>
-                </td>
-                <td className="px-4 py-3">
-                  <div className="flex gap-1.5">
-                    {post.isFeatured && (
-                      <Star
-                        className="size-4 fill-amber-500 text-amber-500"
-                        aria-label="Featured"
-                      />
-                    )}
-                    {post.isPermium && (
-                      <Lock
-                        className="size-4 text-muted-foreground"
-                        aria-label="Premium"
-                      />
-                    )}
-                  </div>
-                </td>
-                <td className="px-4 py-3 text-muted-foreground">
-                  {post.views?.toLocaleString() ?? 0}
-                </td>
-                <td className="px-4 py-3 text-muted-foreground">
-                  {post._count?.comments ?? 0}
-                </td>
-                <td className="px-4 py-3 text-muted-foreground">{created}</td>
-              </tr>
-            );
-          })}
+          {posts.map((post: any) => (
+            <PostRow key={post.id} post={post} />
+          ))}
         </tbody>
       </table>
     </div>
